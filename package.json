@@ -1,0 +1,21 @@
+{
+  "name": "smtk-obs",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "bun run index.ts",
+    "build:css": "bunx @tailwindcss/cli -i ./input.css -o ./dist/output.css --minify",
+    "build:bin": "bun build --compile --target=bun-linux-x64 ./index.ts --outfile ./dist/smtk-obs-server",
+    "build:html": "cp overlay.html dist/",
+    "build:all": "mkdir -p dist && bun run build:css && bun run build:bin && bun run build:html"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.1",
+    "@types/bun": "latest",
+    "tailwindcss": "^4.2.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

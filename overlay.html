@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ShowMeTheKey OBS Overlay</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body class="bg-transparent text-white font-sans overflow-hidden">
+    <div id="keys-container" class="flex gap-2 p-8 justify-end items-end h-screen w-screen flex-wrap content-end"></div>
+
+    <script>
+        const ws = new WebSocket('ws://localhost:8080');
+        const container = document.getElementById('keys-container');
+
+        const activeModifiers = new Set();
+        let regularKeyPressedWhileModifierHeld = false;
+
+        const prettyNames = {
+            'ENTER': 'Enter ↵',
+            'SPACE': 'Space ␣',
+            'BACKSPACE': 'Backspace ⌫',
+            'TAB': 'Tab',
+            'ESC': 'Esc',
+            'UP': '↑',
+            'DOWN': '↓',
+            'LEFT': '←',
+            'RIGHT': '→',
+            'GRAVE': '~',
+            'MINUS': '-',
+            'EQUAL': '=',
+            'SLASH': '/',
+            'BTN_LEFT': 'L 🖱️',
+            'BTN_RIGHT': 'R 🖱️',
+            'BTN_MIDDLE': 'M 🖱️',
+            'BTN_SIDE': 'Mouse Side',
+            'BTN_EXTRA': 'Mouse Extra'
+        };
+
+        function showKey(text) {
+            const keyEl = document.createElement('div');
+            keyEl.className = 'key-enter bg-gray-800 bg-opacity-90 border border-gray-600 rounded-lg px-4 py-2 text-xl font-bold shadow-xl backdrop-blur-md';
+            keyEl.innerText = text;
+
+            container.appendChild(keyEl);
+            setTimeout(() => {
+                keyEl.classList.remove('key-enter');
+                keyEl.classList.add('key-exit');
+                setTimeout(() => keyEl.remove(), 300);
+            }, 2000);
+        }
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            if (data.event_name !== "KEYBOARD_KEY" && data.event_name !== "POINTER_BUTTON") return;
+
+            let rawKey = data.key_name.replace('KEY_', '');
+            let key = rawKey;
+
+            if (rawKey.includes('CTRL')) key = 'Ctrl';
+            else if (rawKey.includes('SHIFT')) key = 'Shift';
+            else if (rawKey.includes('ALT')) key = 'Alt';
+            else if (rawKey.includes('META')) key = 'Super';
+            else if (prettyNames[rawKey]) key = prettyNames[rawKey];
+            else if (key.length === 1) key = key.toUpperCase();
+
+            const isModifier = ['Ctrl', 'Shift', 'Alt', 'Super'].includes(key);
+
+            if (data.state_name === "PRESSED") {
+                if (isModifier) {
+                    activeModifiers.add(key);
+                    regularKeyPressedWhileModifierHeld = false;
+                } else {
+                    if (activeModifiers.size > 0) {
+                        regularKeyPressedWhileModifierHeld = true;
+                        const combo = Array.from(activeModifiers).join(' + ') + ' + ' + key;
+                        showKey(combo);
+                    } else {
+                        showKey(key);
+                    }
+                }
+            } else if (data.state_name === "RELEASED") {
+                if (isModifier) {
+                    if (!regularKeyPressedWhileModifierHeld) {
+                        showKey(key);
+                    }
+                    activeModifiers.delete(key);
+                }
+            }
+        };
+
+        ws.onclose = () => console.log('Connection to server lost.');
+    </script>
+</body>
+
+</html>
