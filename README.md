@@ -1,8 +1,12 @@
-# ShowMeTheKey OBS Overlay
+# ShowMeTheKey OBS
 
 A lightweight, customizable, and blazing-fast OBS Browser Source overlay for displaying keystrokes and mouse clicks. 
 
 Built specifically for Linux/Wayland users, this tool acts as a WebSocket bridge between the native [`showmethekey-cli`](https://github.com/AlynxZhou/showmethekey) utility and a beautifully animated HTML overlay using [Bun](https://bun.sh/) and Tailwind CSS.
+
+> Firstly it was created just for me, but then I thought why not share it with the world :)
+
+![Preview](preview.webp)
 
 ## ✨ Features
 * **Wayland Ready:** Reliably captures global inputs on Wayland using `showmethekey-cli` (via `libinput`).

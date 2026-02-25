@@ -1,7 +1,7 @@
 # Maintainer: Deniz Köse denizkose@proton.me
 
 pkgname=smtk-obs-git
-pkgver=1.0.2
+pkgver=1.0.3
 pkgrel=1
 pkgdesc="A lightweight OBS Browser Source overlay for showmethekey using Bun and WebSockets"
 arch=('any')
@@ -16,7 +16,6 @@ sha256sums=('SKIP')
 
 pkgver() {
   cd "$srcdir/${pkgname%-git}"
-  git describe --long --tags --abbrev=7 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
   printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
