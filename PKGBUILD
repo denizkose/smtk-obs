@@ -1,5 +1,7 @@
+# Maintainer: Deniz Köse denizkose@proton.me
+
 pkgname=smtk-obs-overlay-git
-pkgver=1.0.0
+pkgver=1.0.1
 pkgrel=1
 pkgdesc="A lightweight OBS Browser Source overlay for showmethekey using Bun and WebSockets"
 arch=('any')
@@ -7,9 +9,9 @@ url="https://github.com/denizkose/smtk-obs"
 license=('MIT')
 depends=('showmethekey' 'bun')
 makedepends=('git')
-provides=('smtk-obs-overlay')
-conflicts=('smtk-obs-overlay')
-source=("git+${url}.git")
+provides=("${pkgname%-git}")
+conflicts=("${pkgname%-git}")
+source=("${pkgname%-git}::git+${url}.git")
 sha256sums=('SKIP')
 
 pkgver() {
