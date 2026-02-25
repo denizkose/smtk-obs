@@ -32,8 +32,8 @@ yay -S smtk-obs-overlay-git
 Clone the repository and run it directly:
 
 ```bash
-git clone [https://github.com/YOUR_USERNAME/smtk-obs-overlay.git](https://github.com/YOUR_USERNAME/smtk-obs-overlay.git)
-cd smtk-obs-overlay
+git clone [https://github.com/denizkose/smtk-obs.git](https://github.com/denizkose/smtk-obs.git)
+cd smtk-obs
 chmod +x smtk-obs-server
 
 ```
@@ -68,7 +68,7 @@ You should see a message indicating that the WebSocket server is running on `ws:
 3. Name it (e.g., "Key Overlay") and click OK.
 4. Check the box for **Local file**.
 5. Click **Browse** and select the `overlay.html` file.
-* *If installed via AUR, this file is located at:* `/usr/share/smtk-obs-overlay/overlay.html`
+* *If installed via AUR, this file is located at:* `/usr/share/smtk-obs/overlay.html`
 * *If installed manually, select the file inside your cloned folder.*
 
 

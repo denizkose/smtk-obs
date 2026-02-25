@@ -1,7 +1,7 @@
 # Maintainer: Deniz Köse denizkose@proton.me
 
-pkgname=smtk-obs-overlay-git
-pkgver=1.0.1
+pkgname=smtk-obs-git
+pkgver=1.0.2
 pkgrel=1
 pkgdesc="A lightweight OBS Browser Source overlay for showmethekey using Bun and WebSockets"
 arch=('any')
@@ -22,7 +22,7 @@ pkgver() {
 
 package() {
   cd "$srcdir/${pkgname%-git}"
-  install -dm755 "$pkgdir/usr/share/smtk-obs-overlay"  
-  install -m644 index.ts overlay.html output.css "$pkgdir/usr/share/smtk-obs-overlay/"
+  install -dm755 "$pkgdir/usr/share/smtk-obs"  
+  install -m644 index.ts overlay.html output.css "$pkgdir/usr/share/smtk-obs/"
   install -Dm755 smtk-obs-server "$pkgdir/usr/bin/smtk-obs-server"
 }
